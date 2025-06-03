@@ -7,27 +7,24 @@
 <body>
   <h1>CS2 Drop Prices</h1>
   <button onclick="getPrice()">Check USP-S | Printstream Price</button>
-  <p id="priceDisplay">Price will appear here.</p>
+  <pre id="priceDisplay">Price data will appear here.</pre>
 
   <script>
-    async function getPrice() {
-      const itemName = "USP-S | Printstream (Field-Tested)";
-      const steamApiUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(itemName)}`;
-      const proxyUrl = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamApiUrl)}`;
+  async function getPrice() {
+    const itemName = "USP-S | Printstream (Field-Tested)";
+    const steamApiUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(itemName)}`;
+    const proxyUrl = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamApiUrl)}`;
 
-      try {
-        const response = await fetch(proxyUrl);
-        const data = await response.json();
+    try {
+      const response = await fetch(proxyUrl);
+      const data = await response.json();
 
-        if (data.success) {
-          document.getElementById("priceDisplay").innerText = `Current price: ${data.lowest_price}`;
-        } else {
-          document.getElementById("priceDisplay").innerText = "Item not found or failed to fetch.";
-        }
-      } catch (err) {
-        document.getElementById("priceDisplay").innerText = "Error: Could not fetch price.";
-      }
+      // Display full raw JSON
+      document.getElementById("priceDisplay").innerText = JSON.stringify(data, null, 2);
+    } catch (err) {
+      document.getElementById("priceDisplay").innerText = "Error: Could not fetch data.";
     }
-  </script>
+  }
+</script>
 </body>
 </html>
