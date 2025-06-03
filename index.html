@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>CS2 Drop Prices - USP-S Printstream</title>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 </head>
 <body>
   <h1>CS2 Drop Prices</h1>
@@ -10,21 +10,29 @@
   <pre id="priceDisplay">Price data will appear here.</pre>
 
   <script>
-  async function getPrice() {
-    const itemName = "USP-S | Printstream (Field-Tested)";
-    const steamApiUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(itemName)}`;
-    const proxyUrl = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamApiUrl)}`;
+    async function getPrice() {
+      const itemName = "USP-S | Printstream (Field-Tested)";
+      const steamApiUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(itemName)}`;
+      const proxyUrl = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamApiUrl)}`;
 
-    try {
-      const response = await fetch(proxyUrl);
-      const data = await response.json();
+      try {
+        const response = await fetch(proxyUrl);
+        const data = await response.json();
 
-      // Display full raw JSON
-      document.getElementById("priceDisplay").innerText = JSON.stringify(data, null, 2);
-    } catch (err) {
-      document.getElementById("priceDisplay").innerText = "Error: Could not fetch data.";
+        if (data.success) {
+          let priceText = "";
+          if (data.lowest_price) priceText += `Lowest Price: ${data.lowest_price}\n`;
+          if (data.median_price) priceText += `Median Price: ${data.median_price}\n`;
+          if (data.volume) priceText += `Volume: ${data.volume}\n`;
+          if (!priceText) priceText = "Price data not available.";
+          document.getElementById("priceDisplay").innerText = priceText;
+        } else {
+          document.getElementById("priceDisplay").innerText = "Failed to get price data.";
+        }
+      } catch (err) {
+        document.getElementById("priceDisplay").innerText = "Error: Could not fetch data.";
+      }
     }
-  }
-</script>
+  </script>
 </body>
 </html>
