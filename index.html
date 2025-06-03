@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CS2 Market Prices</title>
+  <title>CS2 Drop Prices - USP-S Printstream</title>
+  <meta charset="UTF-8">
 </head>
 <body>
-  <h1>Check CS2 Item Prices</h1>
-  <input id="itemInput" placeholder="Enter item name">
-  <button onclick="getPrice()">Get Price</button>
-  <div id="priceDisplay"></div>
+  <h1>CS2 Drop Prices</h1>
+  <button onclick="getPrice()">Check USP-S | Printstream Price</button>
+  <p id="priceDisplay">Price will appear here.</p>
 
-  <script src="script.js"></script>
+  <script>
+    async function getPrice() {
+      const itemName = "USP-S | Printstream (Field-Tested)";
+      const url = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(itemName)}`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.success) {
+          document.getElementById("priceDisplay").innerText = `Current price: ${data.lowest_price}`;
+        } else {
+          document.getElementById("priceDisplay").innerText = "Item not found or failed to fetch.";
+        }
+      } catch (err) {
+        document.getElementById("priceDisplay").innerText = "Error: Could not fetch price (likely due to CORS).";
+      }
+    }
+  </script>
 </body>
 </html>
