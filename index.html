@@ -1,96 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CS2 Drop Prices</title>
+	<meta charset="UTF-8">
+	<title>CS2 Drop Prices</title>
+	<link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>CS2 Drop Prices</h1>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Weapon</th>
-        <th>Skin</th>
-        <th>Lowest Price</th>
-        <th>Median Price</th>
-        <th>Market Volume</th>
-      </tr>
-    </thead>
-    <tbody id="skin-table-body"></tbody>
-  </table>
-  <div id="loadTrigger" style="height: 20px;"></div>
+	<body>
+		<div class="table">
+			<table>
+				<tr>
+					<th>skin</th>
+					<th>drop rate</th>
+					<th>market volume</th>
+					<th>average price</th>
+					<th>lowest price</th>
+					<th>market link</th>
+				</tr>
+				<tr>
+					<td>Tec-9 | Slag (FN)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>link to MARKET</td>
+				</tr>
+				<tr>
+					<td>Tec-9 | Slag (MW)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>link to MARKET</td>
+				</tr>
+				<tr>
+					<td>Tec-9 | Slag (FT)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>link to MARKET</td>
+				</tr>
+				<tr>
+					<td>Tec-9 | Slag (WW)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>link to MARKET</td>
+				</tr>
+				<tr>
+					<td>Tec-9 | Slag (BS)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>link to MARKET</td>
+				</tr>
 
-  <script>
-    const BATCH_SIZE = 10;
-    let currentIndex = 0;
-    let skinList = [];
-    const cache = {};
-    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
-    async function loadSkins() {
-      const response = await fetch('items.json');
-      skinList = await response.json();
-      loadNextBatch();
-    }
-
-    async function loadNextBatch() {
-      if (currentIndex >= skinList.length) return;
-
-      const nextBatch = skinList.slice(currentIndex, currentIndex + BATCH_SIZE);
-      for (const fullName of nextBatch) {
-        await loadSkinPrice(fullName);
-      }
-      currentIndex += BATCH_SIZE;
-    }
-
-    async function loadSkinPrice(fullName) {
-      const urlName = fullName.replace(' (Field-Tested)', ' (Field-Tested)').replace(/ /g, '+');
-      const now = Date.now();
-
-      if (cache[urlName] && (now - cache[urlName].timestamp < CACHE_DURATION)) {
-        return insertRow(fullName, cache[urlName].data);
-      }
-
-      const apiUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(urlName)}`;
-      const proxyUrl = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(apiUrl)}`;
-
-      try {
-        const res = await fetch(proxyUrl);
-        const data = await res.json();
-
-        cache[urlName] = {
-          data: data,
-          timestamp: now
-        };
-
-        insertRow(fullName, data);
-      } catch (e) {
-        insertRow(fullName, { lowest_price: 'Error', median_price: 'Error', volume: 'Error' });
-      }
-    }
-
-    function insertRow(fullName, data) {
-      const [weapon, skin] = fullName.split(' | ');
-      const tbody = document.getElementById('skin-table-body');
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${weapon}</td>
-        <td>${skin}</td>
-        <td>${data.lowest_price || 'N/A'}</td>
-        <td>${data.median_price || 'N/A'}</td>
-        <td>${data.volume || 'N/A'}</td>
-      `;
-      tbody.appendChild(row);
-    }
-
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        loadNextBatch();
-      }
-    });
-
-    observer.observe(document.getElementById('loadTrigger'));
-    loadSkins();
-  </script>
-</body>
+			</table>
+		</div>
+	</body>
 </html>
