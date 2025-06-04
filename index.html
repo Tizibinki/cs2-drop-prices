@@ -6,121 +6,15 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div>
-		<h1>Tec-9</h1>
-		<div class="table">
-			<h1>Tec-9 | Slag</h1>
-			<table>
-				<tr>
-					<th>skin</th>
-					<th>drop rate</th>
-					<th>market volume</th>
-					<th>average price</th>
-					<th>lowest price</th>
-					<th>market link</th>
-				</tr>
-				<tr>
-					<td>Tec-9 | Slag (FN)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Tec-9 | Slag (MW)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Tec-9 | Slag (FT)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Tec-9 | Slag (WW)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Tec-9 | Slag (BS)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-
-			</table>
-		</div>
-	</div>
-	<div>
-		<h1>Five-SeveN</h1>
-		<div class="table">
-			<h1>Five-SeveN | Coolant</h1>
-			<table>
-				<tr>
-					<th>skin</th>
-					<th>drop rate</th>
-					<th>market volume</th>
-					<th>average price</th>
-					<th>lowest price</th>
-					<th>market link</th>
-				</tr>
-				<tr>
-					<td>Five-SeveN | Coolant (FN)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Five-SeveN | Coolant (MW)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Five-SeveN | Coolant (FT)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Five-SeveN | Coolant (WW)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-				<tr>
-					<td>Five-SeveN | Coolant (BS)</td>
-					<td>future feature</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>visit market</td>
-				</tr>
-
-			</table>
-		</div>
-	</div>
+	<div id="main"></div>
 	<script>
+		const shortWear = [
+			"(FN)",
+			"(MW)",
+			"(FT)",
+			"(WW)",
+			"(BS)"
+		];
 		const wearMap = {
 			"(FN)": "Factory New",
 			"(MW)": "Minimal Wear",
@@ -128,6 +22,75 @@
 			"(WW)": "Well-Worn",
 			"(BS)": "Battle-Scarred"
 		};
+
+		async function loadsite() {
+			try {
+				const res = await fetch("items.json");
+				const items = await res.json();
+
+				const container = document.getElementById("main");
+
+				items.forEach(({ weapon, skins }) => {
+					const itempart = document.createElement("div");
+					const itemhead = document.createElement("h1");
+					itemhead.textContent = weapon;
+					itempart.appendChild(itemhead);
+
+					skins.forEach(skin => {
+						const skinhead = document.createElement("h2");
+						skinhead.textContent = `${weapon} | ${skin.name}`;
+						itempart.appendChild(skinhead);
+
+						const table = document.createElement("table");
+						const thead = document.createElement("tr");
+						["skin", "drop rate", "market volume", "average price", "lowest price", "market link"]
+							.forEach(head => {
+								const th = document.createElement("th");
+								th.textContent = head;
+								thead.appendChild(th);
+							});
+						table.appendChild(thead);
+
+						const wears = skin.hasWear ? shortWear : [""];
+						wears.forEach(wear => {
+							const fullWear = wearMap[wear] || "";
+							const fullName = skin.hasWear ? `${weapon} | ${skin.name} (${fullWear})` : `${weapon} | ${skin.name}`;
+							const shortName = skin.hasWear ? `${weapon} | ${skin.name} ${wear}` : `${weapon} | ${skin.name}`;
+
+							const tr = document.createElement("tr");
+							const tdname = document.createElement("td");
+							tdname.textContent = shortName;
+							const tdrate = document.createElement("td");
+							tdrate.textContent = "future feature";
+							const tdvolume = document.createElement("td");
+							tdvolume.textContent = "N/A";
+							const tdmedian = document.createElement("td");
+							tdmedian.textContent = "N/A";
+							const tdlow = document.createElement("td");
+							tdlow.textContent = "N/A";
+							const tdurl = document.createElement("td");
+							tdurl.textContent = "visit market";
+							tdurl.classList.add("button");
+							tdurl.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
+
+							[tdname, tdrate, tdvolume, tdmedian, tdlow, tdurl]
+								.forEach(td => tr.appendChild(td));
+							table.appendChild(tr);
+						});
+						itempart.appendChild(table);
+					});
+					container.appendChild(itempart);
+				});
+			} catch (err) {
+				console.error("Error loading items.json", err);
+				document.getElementById("main").textContent = "Failed to load skin Data.";
+			}
+            document.querySelectorAll("table tr").forEach(row => {
+                if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
+                    lazyload.observe(row);
+                }
+            });
+		}
 
 		const lazyload = new IntersectionObserver((entries, obs) => {
 
@@ -176,8 +139,8 @@
 						}
 
 					} else {
-						anchor.textContent = "Invalid Name";
-						anchor.style.color = "red";
+						linkCell.textContent = "Invalid Name";
+						linkCell.style.color = "red";
 					}
 					lazyload.unobserve(row);
 				}
@@ -188,12 +151,6 @@
 			threshold: 0.1
 		});
 
-		document.querySelectorAll("table tr").forEach(row => {
-			if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
-				lazyload.observe(row);
-			}
-		});
-
 		document.addEventListener("click", e => {
 			const cell = e.target.closest("td[data-url]");
 			if (cell) {
@@ -201,6 +158,7 @@
 				if (url) window.open(url, "_blank");
 			}
 		});
+		loadsite();
 	</script>
 </body>
 </html>
