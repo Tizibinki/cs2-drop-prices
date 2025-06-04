@@ -5,11 +5,11 @@
 	<title>CS2 Drop Prices</title>
 	<link rel="stylesheet" href="style.css">
 </head>
-	<body>
-		<div>
-			<h1>Tec-9</h1>
-			<div class="table">
-				<h1>Tec-9 | Slag</h1>
+<body>
+	<div>
+		<h1>Tec-9</h1>
+		<div class="table">
+			<h1>Tec-9 | Slag</h1>
 			<table>
 				<tr>
 					<th>skin</th>
@@ -61,43 +61,121 @@
 				</tr>
 
 			</table>
-			</div>
 		</div>
-		<script>
-			const wearMap = {
-				"(FN)": "Factory New",
-				"(MW)": "Minimal Wear",
-				"(FT)": "Field-Tested",
-				"(WW)": "Well-Worn",
-				"(BS)": "Battle-Scarred"
-			};
+	</div>
+	<div>
+		<h1>Five-SeveN</h1>
+		<div class="table">
+			<h1>Five-SeveN | Coolant</h1>
+			<table>
+				<tr>
+					<th>skin</th>
+					<th>drop rate</th>
+					<th>market volume</th>
+					<th>average price</th>
+					<th>lowest price</th>
+					<th>market link</th>
+				</tr>
+				<tr>
+					<td>Five-SeveN | Coolant (FN)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td><a href="#" target="_blank">visit marekt</a></td>
+				</tr>
+				<tr>
+					<td>Five-SeveN | Coolant (MW)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td><a href="#" target="_blank">visit marekt</a></td>
+				</tr>
+				<tr>
+					<td>Five-SeveN | Coolant (FT)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td><a href="#" target="_blank">visit marekt</a></td>
+				</tr>
+				<tr>
+					<td>Five-SeveN | Coolant (WW)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td><a href="#" target="_blank">visit marekt</a></td>
+				</tr>
+				<tr>
+					<td>Five-SeveN | Coolant (BS)</td>
+					<td>future feature</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td><a href="#" target="_blank">visit marekt</a></td>
+				</tr>
 
-			const rows = document.querySelectorAll("table tbody tr");
+			</table>
+		</div>
+	</div>
+	<script>
+		const wearMap = {
+			"(FN)": "Factory New",
+			"(MW)": "Minimal Wear",
+			"(FT)": "Field-Tested",
+			"(WW)": "Well-Worn",
+			"(BS)": "Battle-Scarred"
+		};
 
-			rows.forEach(row => {
-				const nameCell = row.cells[0];
-				const linkCell = row.cells[5];
-				const anchor = linkCell.querySelector("a");
+		const rows = document.querySelectorAll("table tbody tr");
 
-				if (nameCell && anchor) {
-					const rawText = nameCell.textContent.trim();
-					const match = rawText.match(/\((.*?)\)/);
+		rows.forEach(async row => {
+			const nameCell = row.cells[0];
+			const linkCell = row.cells[5];
+			const anchor = linkCell.querySelector("a");
 
-					if (match) {
-						const shortWear = `(${match[1]})`;
-						const fullWear = wearMap[shortWear];
-						const baseName = rawText.replace(shortWear, "").trim();
-						const fullName = `${baseName} (${fullWear})`;
+			const mv = row.cells[2];
+			const mp = row.cells[3];
+			const lp = row.cells[4];
 
-						const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
-						anchor.href = url;
-						anchor.textContent = "Visit Market";
-					} else {
-						anchor.textContent = "Invalid Name";
-						anchor.style.color = "red";
+			if (nameCell && anchor) {
+				const rawText = nameCell.textContent.trim();
+				const match = rawText.match(/\((.*?)\)/);
+
+				if (match) {
+					const shortWear = `(${match[1]})`;
+					const fullWear = wearMap[shortWear];
+					const baseName = rawText.replace(shortWear, "").trim();
+					const fullName = `${baseName} (${fullWear})`;
+
+					const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
+					anchor.href = url;
+					anchor.textContent = "Visit Market";
+
+					const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
+					const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
+
+					try {
+						const response = await fetch(cfworkerURL);
+						const data = await response.json();
+
+						if (data.success) {
+							mv.innerText = data.volume || "N/A";
+							mp.innerText = data.median_price || "N/A";
+							lp.innerText = data.lowest_price || "N/A";
+						}
+					} catch (err) {
+						console.error("API fetch error:", err);
 					}
+
+				} else {
+					anchor.textContent = "Invalid Name";
+					anchor.style.color = "red";
 				}
-			});
-		</script>
-	</body>
+			}
+		});
+	</script>
+</body>
 </html>
