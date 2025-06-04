@@ -129,53 +129,70 @@
 			"(BS)": "Battle-Scarred"
 		};
 
-		const rows = document.querySelectorAll("table tbody tr");
+		const lazyload = new IntersectionObserver((entries, obs) => {
 
-		rows.forEach(async row => {
-			const nameCell = row.cells[0];
-			const linkCell = row.cells[5];
-			const anchor = linkCell.querySelector("a");
+			entries.forEach(async entry => {
+				if (!entry.isIntersecting) return;
 
-			const mv = row.cells[2];
-			const mp = row.cells[3];
-			const lp = row.cells[4];
+				const row = entry.target;
+				const nameCell = row.cells[0];
+				const linkCell = row.cells[5];
+				const anchor = linkCell.querySelector("a");
 
-			if (nameCell && anchor) {
-				const rawText = nameCell.textContent.trim();
-				const match = rawText.match(/\((.*?)\)/);
+				const mv = row.cells[2];
+				const mp = row.cells[3];
+				const lp = row.cells[4];
 
-				if (match) {
-					const shortWear = `(${match[1]})`;
-					const fullWear = wearMap[shortWear];
-					const baseName = rawText.replace(shortWear, "").trim();
-					const fullName = `${baseName} (${fullWear})`;
+				if (nameCell && anchor) {
+					const rawText = nameCell.textContent.trim();
+					const match = rawText.match(/\((.*?)\)/);
 
-					const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
-					anchor.href = url;
-					anchor.textContent = "Visit Market";
+					if (match) {
+						const shortWear = `(${match[1]})`;
+						const fullWear = wearMap[shortWear];
+						const baseName = rawText.replace(shortWear, "").trim();
+						const fullName = `${baseName} (${fullWear})`;
 
-					const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
-					const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
+						console.log("Lazy Loading:", fullName);
 
-					try {
-						const response = await fetch(cfworkerURL);
-						const data = await response.json();
+						const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
+						anchor.href = url;
+						anchor.textContent = "Visit Market";
 
-						if (data.success) {
-							mv.innerText = data.volume || "N/A";
-							mp.innerText = data.median_price || "N/A";
-							lp.innerText = data.lowest_price || "N/A";
+						const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
+						const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
+
+						try {
+							const response = await fetch(cfworkerURL);
+							const data = await response.json();
+
+							if (data.success) {
+								mv.innerText = data.volume || "N/A";
+								mp.innerText = data.median_price || "N/A";
+								lp.innerText = data.lowest_price || "N/A";
+							}
+						} catch (err) {
+							console.error("API fetch error:", err);
 						}
-					} catch (err) {
-						console.error("API fetch error:", err);
-					}
 
-				} else {
-					anchor.textContent = "Invalid Name";
-					anchor.style.color = "red";
+					} else {
+						anchor.textContent = "Invalid Name";
+						anchor.style.color = "red";
+					}
+					lazyload.unobserve(row);
 				}
-			}
+			});
+		}, {
+			root: null,
+			rootMargin: "0px 0px 150px 0px",
+			threshold: 0.1
 		});
+
+		document.querySelectorAll("table tr").forEach(row => {
+			if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
+				lazyload.observe(row);
+			}
+		})
 	</script>
 </body>
 </html>
