@@ -1,654 +1,164 @@
 [
   {
+    "weapon": "M4A1-S",
+    "skins": [
+      { "name": "Stratosphere", "hasWear": true },
+      { "name": "Rose Hex", "hasWear": true },
+      { "name": "Glitched Paint", "hasWear": true }
+    ]
+  },
+  {
     "weapon": "AK-47",
     "skins": [
-      {
-        "name": "Midnight Laminate",
-        "hasWear": true
-      },
-      {
-        "name": "Nouveau Rouge",
-        "hasWear": true
-      },
-      {
-        "name": "Safari Mesh",
-        "hasWear": true
-      },
-      {
-        "name": "Safety Net",
-        "hasWear": true
-      },
-      {
-        "name": "Wintergreen",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "AUG",
-    "skins": [
-      {
-        "name": "Condemned",
-        "hasWear": true
-      },
-      {
-        "name": "Random Access",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "AWP",
-    "skins": [
-      {
-        "name": "Acheron",
-        "hasWear": true
-      },
-      {
-        "name": "Chromatic Aberration",
-        "hasWear": true
-      },
-      {
-        "name": "Glacier Drift",
-        "hasWear": true
-      },
-      {
-        "name": "Green Energy",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "CZ75-Auto",
-    "skins": [
-      {
-        "name": "Frosted",
-        "hasWear": true
-      },
-      {
-        "name": "Spectrum",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Desert Eagle",
-    "skins": [
-      {
-        "name": "Mint Fan",
-        "hasWear": true
-      },
-      {
-        "name": "Mulberry",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Dual Berettas",
-    "skins": [
-      {
-        "name": "Twin Turbo",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "FAMAS",
-    "skins": [
-      {
-        "name": "Mecha Industries",
-        "hasWear": true
-      },
-      {
-        "name": "Neon Glow",
-        "hasWear": true
-      },
-      {
-        "name": "Teardown",
-        "hasWear": true
-      },
-      {
-        "name": "Woodland",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Five-SeveN",
-    "skins": [
-      {
-        "name": "Arctic Camo",
-        "hasWear": true
-      },
-      {
-        "name": "Coolant",
-        "hasWear": true
-      },
-      {
-        "name": "Neon",
-        "hasWear": true
-      },
-      {
-        "name": "Silver Quartz",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "G3SG1",
-    "skins": [
-      {
-        "name": "Desert Storm",
-        "hasWear": true
-      },
-      {
-        "name": "Ice Age",
-        "hasWear": true
-      },
-      {
-        "name": "Rainbow",
-        "hasWear": true
-      },
-      {
-        "name": "VariCamo",
-        "hasWear": true
-      },
-      {
-        "name": "Woodland",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Galil AR",
-    "skins": [
-      {
-        "name": "VariCamo",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Glock-18",
-    "skins": [
-      {
-        "name": "Cold Snap",
-        "hasWear": true
-      },
-      {
-        "name": "Glockingbird",
-        "hasWear": true
-      },
-      {
-        "name": "High Beam",
-        "hasWear": true
-      },
-      {
-        "name": "Nuclear Garden",
-        "hasWear": true
-      },
-      {
-        "name": "Pastel",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "M249",
-    "skins": [
-      {
-        "name": "Color Burst",
-        "hasWear": true
-      },
-      {
-        "name": "Gator Mesh",
-        "hasWear": true
-      },
-      {
-        "name": "Jungle",
-        "hasWear": true
-      },
-      {
-        "name": "Snow Leopard",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "MAC-10",
-    "skins": [
-      {
-        "name": "Calf Skin",
-        "hasWear": true
-      },
-      {
-        "name": "Nuclear Garden",
-        "hasWear": true
-      },
-      {
-        "name": "Palm",
-        "hasWear": true
-      },
-      {
-        "name": "Poplar Thicket",
-        "hasWear": true
-      },
-      {
-        "name": "Snowfall",
-        "hasWear": true
-      },
-      {
-        "name": "Vivid Dream",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "MAG-7",
-    "skins": [
-      {
-        "name": "Bark",
-        "hasWear": true
-      },
-      {
-        "name": "Core Breach",
-        "hasWear": true
-      },
-      {
-        "name": "Holograph",
-        "hasWear": true
-      },
-      {
-        "name": "Whiteout",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "MP5-SD",
-    "skins": [
-      {
-        "name": "Co-Processor",
-        "hasWear": true
-      },
-      {
-        "name": "Dirt Drop",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "MP7",
-    "skins": [
-      {
-        "name": "Arctic Wolf",
-        "hasWear": true
-      },
-      {
-        "name": "Electric Slide",
-        "hasWear": true
-      },
-      {
-        "name": "Fade",
-        "hasWear": true
-      },
-      {
-        "name": "Motherboard",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "MP9",
-    "skins": [
-      {
-        "name": "Color Splash",
-        "hasWear": true
-      },
-      {
-        "name": "Frostbite",
-        "hasWear": true
-      },
-      {
-        "name": "Orange Peel",
-        "hasWear": true
-      },
-      {
-        "name": "Sand Dashed",
-        "hasWear": true
-      },
-      {
-        "name": "Slide",
-        "hasWear": true
-      },
-      {
-        "name": "Spruce",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Negev",
-    "skins": [
-      {
-        "name": "Blizzard",
-        "hasWear": true
-      },
-      {
-        "name": "Leafy",
-        "hasWear": true
-      },
-      {
-        "name": "Neon Dreams",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Nova",
-    "skins": [
-      {
-        "name": "Exo",
-        "hasWear": true
-      },
-      {
-        "name": "Lightwave",
-        "hasWear": true
-      },
-      {
-        "name": "Pine Cone",
-        "hasWear": true
-      },
-      {
-        "name": "Polar Mesh",
-        "hasWear": true
-      },
-      {
-        "name": "Predator",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "P2000",
-    "skins": [
-      {
-        "name": "Aurora",
-        "hasWear": true
-      },
-      {
-        "name": "Royal Baroque",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "P250",
-    "skins": [
-      {
-        "name": "Boreal Forest",
-        "hasWear": true
-      },
-      {
-        "name": "Iceberg",
-        "hasWear": true
-      },
-      {
-        "name": "Radiant Burst",
-        "hasWear": true
-      },
-      {
-        "name": "Sand Dune",
-        "hasWear": true
-      },
-      {
-        "name": "Vino Primo",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "P90",
-    "skins": [
-      {
-        "name": "Camouflage",
-        "hasWear": true
-      },
-      {
-        "name": "Chromatic",
-        "hasWear": true
-      },
-      {
-        "name": "Off World",
-        "hasWear": true
-      },
-      {
-        "name": "Sand Spray",
-        "hasWear": true
-      },
-      {
-        "name": "Verdant Growth",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "PP-Bizon",
-    "skins": [
-      {
-        "name": "Candy Apple",
-        "hasWear": true
-      },
-      {
-        "name": "Forest Leaves",
-        "hasWear": true
-      },
-      {
-        "name": "Ice Cap",
-        "hasWear": true
-      },
-      {
-        "name": "Spectrum",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "R8 Revolver",
-    "skins": [
-      {
-        "name": "Amber Fade",
-        "hasWear": true
-      },
-      {
-        "name": "Bone Forged",
-        "hasWear": true
-      },
-      {
-        "name": "Glow",
-        "hasWear": true
-      },
-      {
-        "name": "Nitro",
-        "hasWear": true
-      },
-      {
-        "name": "Snowstorm",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "SSG 08",
-    "skins": [
-      {
-        "name": "Acid Fade",
-        "hasWear": true
-      },
-      {
-        "name": "Avalanche",
-        "hasWear": true
-      },
-      {
-        "name": "Blush Pour",
-        "hasWear": true
-      },
-      {
-        "name": "Blue Spruce",
-        "hasWear": true
-      },
-      {
-        "name": "Hand Brake",
-        "hasWear": true
-      },
-      {
-        "name": "Lichen",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Sawed-Off",
-    "skins": [
-      {
-        "name": "Brake Light",
-        "hasWear": true
-      },
-      {
-        "name": "Luminance",
-        "hasWear": true
-      },
-      {
-        "name": "Snake Camo",
-        "hasWear": true
-      },
-      {
-        "name": "Snowblind",
-        "hasWear": true
-      },
-      {
-        "name": "Timber",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "SCAR-20",
-    "skins": [
-      {
-        "name": "Forest DDPAT",
-        "hasWear": true
-      },
-      {
-        "name": "Light Spectrum",
-        "hasWear": true
-      },
-      {
-        "name": "Polar Vortex",
-        "hasWear": true
-      },
-      {
-        "name": "Sand Mesh",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "SG 553",
-    "skins": [
-      {
-        "name": "Integrale",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "Tec-9",
-    "skins": [
-      {
-        "name": "Radiance",
-        "hasWear": true
-      },
-      {
-        "name": "Remote Control",
-        "hasWear": true
-      },
-      {
-        "name": "VariCamo",
-        "hasWear": true
-      },
-      {
-        "name": "Winterized",
-        "hasWear": true
-      }
-    ]
-  },
-  {
-    "weapon": "UMP-45",
-    "skins": [
-      {
-        "name": "Exposure",
-        "hasWear": true
-      },
-      {
-        "name": "Glacier",
-        "hasWear": true
-      },
-      {
-        "name": "Mossy Oak",
-        "hasWear": true
-      },
-      {
-        "name": "Mudder",
-        "hasWear": true
-      },
-      {
-        "name": "Prism",
-        "hasWear": true
-      }
+      { "name": "Midnight Laminate", "hasWear": true },
+      { "name": "Nouveau Rouge", "hasWear": true },
+      { "name": "Safety Net", "hasWear": true },
+      { "name": "Wintergreen", "hasWear": true }
     ]
   },
   {
     "weapon": "USP-S",
     "skins": [
-      {
-        "name": "Bleeding Edge",
-        "hasWear": true
-      },
-      {
-        "name": "Check Engine",
-        "hasWear": true
-      },
-      {
-        "name": "Forest Leaves",
-        "hasWear": true
-      },
-      {
-        "name": "Royal Guard",
-        "hasWear": true
-      },
-      {
-        "name": "Tropical Breeze",
-        "hasWear": true
-      }
+      { "name": "Royal Guard", "hasWear": true },
+      { "name": "Bleeding Edge", "hasWear": true },
+      { "name": "Forest Leaves", "hasWear": true },
+      { "name": "Tropical Breeze", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Desert Eagle",
+    "skins": [
+      { "name": "Mint Fan", "hasWear": true },
+      { "name": "Mulberry", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "FAMAS",
+    "skins": [
+      { "name": "Yeti Camo", "hasWear": true },
+      { "name": "Grey Ghost", "hasWear": true },
+      { "name": "Palm", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "MP9",
+    "skins": [
+      { "name": "Cobalt Paisley", "hasWear": true },
+      { "name": "Buff Blue", "hasWear": true },
+      { "name": "Shredded", "hasWear": true },
+      { "name": "Pine", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "P2000",
+    "skins": [
+      { "name": "Royal Baroque", "hasWear": true },
+      { "name": "Marsh", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "P90",
+    "skins": [
+      { "name": "Reef Grief", "hasWear": true },
+      { "name": "Blue Tac", "hasWear": true },
+      { "name": "Mustard Gas", "hasWear": true },
+      { "name": "Desert Halftone", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Zeus x27",
+    "skins": [
+      { "name": "Electric Blue", "hasWear": true },
+      { "name": "Swamp DDPAT", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Nova",
+    "skins": [
+      { "name": "Turquoise Pour", "hasWear": true },
+      { "name": "Canvas Cloud", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "M4A4",
+    "skins": [
+      { "name": "Naval Shred Camo", "hasWear": true },
+      { "name": "Sheet Lightning", "hasWear": true },
+      { "name": "Steel Work", "hasWear": true },
+      { "name": "Converter", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Galil AR",
+    "skins": [
+      { "name": "Robin’s Egg", "hasWear": true },
+      { "name": "Grey Smoke", "hasWear": true },
+      { "name": "Acid Dart", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Glock-18",
+    "skins": [
+      { "name": "Ocean Topo", "hasWear": true },
+      { "name": "Glockingbird", "hasWear": true },
+      { "name": "High Beam", "hasWear": true },
+      { "name": "Coral Bloom", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Dual Berettas",
+    "skins": [
+      { "name": "Rose Nacre", "hasWear": true },
+      { "name": "Polished Malachite", "hasWear": true },
+      { "name": "BorDeux", "hasWear": true },
+      { "name": "Twin Turbo", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Five-SeveN",
+    "skins": [
+      { "name": "Sky Blue", "hasWear": true },
+      { "name": "Autumn Thicket", "hasWear": true }
     ]
   },
   {
     "weapon": "XM1014",
     "skins": [
-      {
-        "name": "Forest Camo",
-        "hasWear": true
-      },
-      {
-        "name": "Frostbite",
-        "hasWear": true
-      },
-      {
-        "name": "Radiant",
-        "hasWear": true
-      }
+      { "name": "Gum Wall Camo", "hasWear": true },
+      { "name": "Copperflage", "hasWear": true },
+      { "name": "Canvas Cloud", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Negev",
+    "skins": [
+      { "name": "Sour Grapes", "hasWear": true },
+      { "name": "Raw Ceramic", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "SSG 08",
+    "skins": [
+      { "name": "Grey Smoke", "hasWear": true },
+      { "name": "Blush Pour", "hasWear": true },
+      { "name": "Tiger Tear", "hasWear": true },
+      { "name": "Hand Brake", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "Tec-9",
+    "skins": [
+      { "name": "Blue Blast", "hasWear": true },
+      { "name": "Garter-9", "hasWear": true },
+      { "name": "Citric Acid", "hasWear": true }
+    ]
+  },
+  {
+    "weapon": "P250",
+    "skins": [
+      { "name": "Plum Netting", "hasWear": true },
+      { "name": "Copper Oxide", "hasWear": true },
+      { "name": "Red Tide", "hasWear": true }
     ]
   }
 ]
