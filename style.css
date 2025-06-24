@@ -1,11 +1,71 @@
 body {
     background-color: rgb(17, 18, 20);
+    display: flex;
+    margin: 0;
+    font-family: sans-serif;
 }
 
-table, th, td {
-    border: 2px solid rgb(32, 32, 36);
-    border-collapse: collapse;
-    color: gray;
+#layout {
+    display: flex;
+    width: 100%;
+}
+
+#main {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+#nav {
+    width: 250px;
+    background-color: #1e1e1e;
+    color: white;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.navitemmain {
+    margin-bottom: 1rem;
+}
+
+.dropdwn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+}
+
+.mainlink {
+    margin-left: 5px;
+}
+
+.navitemmain.open .skinlist {
+    display: block;
+}
+
+.skinlist {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.skinlist a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 2px 0;
+}
+
+.skinlist a:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    scroll-margin-top: 60px;
 }
 
 .table {
@@ -14,12 +74,18 @@ table, th, td {
     width: 50%;
 }
 
+table, th, td {
+    border: 2px solid rgb(32, 32, 36);
+    border-collapse: collapse;
+    color: gray;
+}
+
 .button {
     border: 2px inset rgb(32, 32, 36);
     border-radius: 4px;
     color: gray;
     cursor: pointer;
-    font-family: arial,sans-serif;
+    font-family: arial, sans-serif;
     font-size: 100%;
     height: 100%;
     line-height: 27px;
@@ -32,11 +98,11 @@ table, th, td {
     white-space: pre;
 }
 
-    .button:hover {
-        color: #202124;
-    }
+.button:hover {
+    color: #202124;
+}
 
-    .button:focus {
-        border-color: #4285f4;
-        outline: none;
-    }
+.button:focus {
+    border-color: #4285f4;
+    outline: none;
+}
