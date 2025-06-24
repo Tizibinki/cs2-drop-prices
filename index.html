@@ -10,14 +10,9 @@
 		<div id="nav"></div>
 		<div id="main"></div>
 	</div>
+
 	<script>
-		const shortWear = [
-			"(FN)",
-			"(MW)",
-			"(FT)",
-			"(WW)",
-			"(BS)"
-		];
+		const shortWear = ["(FN)", "(MW)", "(FT)", "(WW)", "(BS)"];
 		const wearMap = {
 			"(FN)": "Factory New",
 			"(MW)": "Minimal Wear",
@@ -48,14 +43,20 @@
 					const dropdwn = document.createElement("div");
 					dropdwn.className = "dropdwn";
 
+					const arrow = document.createElement("span");
+					arrow.className = "arrow";
+					arrow.textContent = "▶";
+
 					const mainlink = document.createElement("span");
 					mainlink.textContent = weapon;
 					mainlink.className = "mainlink";
 					mainlink.style.cursor = "pointer";
+
 					mainlink.addEventListener("click", () => {
-						document.getElementById(itemid).scrollIntoView({ behavior: "smooth", block: "start" })
+						document.getElementById(itemid).scrollIntoView({ behavior: "smooth", block: "start" });
 					});
 
+					dropdwn.appendChild(arrow);
 					dropdwn.appendChild(mainlink);
 
 					dropdwn.addEventListener("click", (e) => {
@@ -81,12 +82,11 @@
 
 						const table = document.createElement("table");
 						const thead = document.createElement("tr");
-						["skin", "drop rate", "market volume", "average price", "lowest price", "market link"]
-							.forEach(head => {
-								const th = document.createElement("th");
-								th.textContent = head;
-								thead.appendChild(th);
-							});
+						["skin", "drop rate", "market volume", "average price", "lowest price", "market link"].forEach(head => {
+							const th = document.createElement("th");
+							th.textContent = head;
+							thead.appendChild(th);
+						});
 						table.appendChild(thead);
 
 						const wears = skin.hasWear ? shortWear : [""];
@@ -111,12 +111,12 @@
 							tdurl.classList.add("button");
 							tdurl.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
 
-							[tdname, tdrate, tdvolume, tdmedian, tdlow, tdurl]
-								.forEach(td => tr.appendChild(td));
+							[tdname, tdrate, tdvolume, tdmedian, tdlow, tdurl].forEach(td => tr.appendChild(td));
 							table.appendChild(tr);
 						});
 						itempart.appendChild(table);
 					});
+
 					main.appendChild(itempart);
 					navitemhead.appendChild(dropdwn);
 					navitemhead.appendChild(navitemsub);
@@ -126,22 +126,21 @@
 				console.error("Error loading items.json", err);
 				document.getElementById("main").textContent = "Failed to load skin Data.";
 			}
-            document.querySelectorAll("table tr").forEach(row => {
-                if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
-                    lazyload.observe(row);
-                }
-            });
+
+			document.querySelectorAll("table tr").forEach(row => {
+				if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
+					lazyload.observe(row);
+				}
+			});
 		}
 
 		const lazyload = new IntersectionObserver((entries, obs) => {
-
 			entries.forEach(async entry => {
 				if (!entry.isIntersecting) return;
 
 				const row = entry.target;
 				const nameCell = row.cells[0];
 				const linkCell = row.cells[5];
-
 				const mv = row.cells[2];
 				const mp = row.cells[3];
 				const lp = row.cells[4];
@@ -178,7 +177,6 @@
 						} catch (err) {
 							console.error("API fetch error:", err);
 						}
-
 					} else {
 						linkCell.textContent = "Invalid Name";
 						linkCell.style.color = "red";
@@ -199,6 +197,7 @@
 				if (url) window.open(url, "_blank");
 			}
 		});
+
 		loadsite();
 	</script>
 </body>

@@ -1,42 +1,36 @@
-/* Make sure html and body fill the viewport height */
 html, body {
     height: 100%;
     margin: 0;
 }
 
-/* Body as normal, background and font */
 body {
     background-color: rgb(17, 18, 20);
     font-family: sans-serif;
     height: 100%;
 }
 
-/* Layout container is the flex parent */
 #layout {
     display: flex;
     width: 100%;
-    height: 100vh; /* Fill viewport height */
+    height: 100vh;
 }
 
-/* Sidebar styles */
 #nav {
     width: 250px;
     background-color: #1e1e1e;
     color: white;
-    height: 100%; /* fill layout height */
+    height: 100%;
     overflow-y: auto;
     padding: 1rem;
     box-sizing: border-box;
 }
 
-/* Main content styles */
 #main {
-    flex: 1; /* take remaining horizontal space */
+    flex: 1;
     padding: 2rem;
     overflow-y: auto;
 }
 
-/* rest of your styles */
 .navitemmain {
     margin-bottom: 1rem;
 }
@@ -47,10 +41,30 @@ body {
     cursor: pointer;
     font-weight: bold;
     user-select: none;
+    padding: 6px 10px;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.dropdwn:hover {
+    background-color: #3a3a3a;
+}
+
+.arrow {
+    display: inline-block;
+    width: 1rem;
+    color: white;
+    transition: transform 0.2s ease;
+    margin-right: 5px;
+}
+
+.navitemmain.open .arrow {
+    transform: rotate(90deg);
 }
 
 .mainlink {
-    margin-left: 5px;
+    color: white;
 }
 
 .navitemmain.open .skinlist {
