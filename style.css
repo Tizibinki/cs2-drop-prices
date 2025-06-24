@@ -4,7 +4,7 @@ html, body {
 }
 
 body {
-    background-color: rgb(17, 18, 20);
+    background-color: #1e1e1e;
     font-family: sans-serif;
     height: 100%;
 }
@@ -42,7 +42,7 @@ body {
     font-weight: bold;
     user-select: none;
     padding: 6px 10px;
-    background-color: #2a2a2a;
+    background-color: #1e1e1e;
     border-radius: 4px;
     transition: background-color 0.2s;
 }
