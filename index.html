@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" />
 	<title>CS2 Drop Prices</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css" />
+	<style>
+		/* Minimal styling for .button cells */
+		.button {
+			color: blue;
+			cursor: pointer;
+			text-decoration: underline;
+		}
+		.navitemmain.open .skinlist {
+			display: block;
+		}
+		.skinlist {
+			display: none;
+			margin-left: 1em;
+		}
+	</style>
 </head>
 <body>
 	<div id="layout">
 		<div id="nav"></div>
 		<div id="main">
 			<h1>Check your Profits from your weekly Drops!</h1>
-			<p>This is a little tool aimed to make it easier to check what the current steam prices for the avaiable weekly Drops are using the steam API</p>
+			<p>This is a little tool aimed to make it easier to check what the current steam prices for the available weekly Drops are using the steam API</p>
 		</div>
 	</div>
 
@@ -74,7 +89,7 @@
 						const skinid = `skin-${weapon.replace(/\s+/g, "-").toLowerCase()}-${skin.name.replace(/\s+/g, "-").toLowerCase()}`;
 
 						const skinhead = document.createElement("h2");
-						const showFullName = skin.hasWear !== false && weapon !== "Cases";
+						const showFullName = skin.hasWear !== false && weapon !== "Cases" && weapon !== "Rare Cases";
 						skinhead.textContent = showFullName ? `${weapon} | ${skin.name}` : skin.name;
 						skinhead.id = skinid;
 						itempart.appendChild(skinhead);
@@ -86,7 +101,6 @@
 
 						const table = document.createElement("table");
 
-						// Create and append <thead> with headers
 						const thead = document.createElement("thead");
 						const headRow = document.createElement("tr");
 						["skin", "drop rate", "market volume", "average price", "lowest price", "market link"].forEach(head => {
@@ -97,10 +111,10 @@
 						thead.appendChild(headRow);
 						table.appendChild(thead);
 
-						// Create <tbody> for data rows
 						const tbody = document.createElement("tbody");
 
 						const wears = skin.hasWear ? shortWear : [""];
+
 						wears.forEach(wear => {
 							const fullWear = wearMap[wear] || "";
 							let fullName;
@@ -109,7 +123,7 @@
 							if (skin.hasWear) {
 								fullName = `${weapon} | ${skin.name} (${fullWear})`;
 								shortName = `${weapon} | ${skin.name} ${wear}`;
-							} else if (weapon === "Cases") {
+							} else if (weapon === "Cases" || weapon === "Rare Cases") {
 								fullName = skin.name;
 								shortName = skin.name;
 							} else {
@@ -118,16 +132,22 @@
 							}
 
 							const tr = document.createElement("tr");
+
 							const tdname = document.createElement("td");
 							tdname.textContent = shortName;
+
 							const tdrate = document.createElement("td");
 							tdrate.textContent = "future feature";
+
 							const tdvolume = document.createElement("td");
 							tdvolume.textContent = "N/A";
+
 							const tdmedian = document.createElement("td");
 							tdmedian.textContent = "N/A";
+
 							const tdlow = document.createElement("td");
 							tdlow.textContent = "N/A";
+
 							const tdurl = document.createElement("td");
 							tdurl.textContent = "visit market";
 							tdurl.classList.add("button");
