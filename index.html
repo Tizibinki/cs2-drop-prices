@@ -11,7 +11,13 @@
 		<div id="nav"></div>
 	</div>
 	<script>
-		const shortWear = ["(FN)", "(MW)", "(FT)", "(WW)", "(BS)"];
+		const shortWear = [
+			"(FN)",
+			"(MW)",
+			"(FT)",
+			"(WW)",
+			"(BS)"
+		];
 		const wearMap = {
 			"(FN)": "Factory New",
 			"(MW)": "Minimal Wear",
@@ -47,7 +53,7 @@
 					mainlink.className = "mainlink";
 					mainlink.style.cursor = "pointer";
 					mainlink.addEventListener("click", () => {
-						document.getElementById(itemid).scrollIntoView({ behavior: "smooth", block: "start" });
+						document.getElementById(itemid).scrollIntoView({ behavior: "smooth", block: "start" })
 					});
 
 					dropdwn.appendChild(mainlink);
@@ -120,39 +126,50 @@
 				console.error("Error loading items.json", err);
 				document.getElementById("main").textContent = "Failed to load skin Data.";
 			}
-			document.querySelectorAll("table tr").forEach(row => {
-				if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
-					lazyload.observe(row);
-				}
-			});
+            document.querySelectorAll("table tr").forEach(row => {
+                if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
+                    lazyload.observe(row);
+                }
+            });
 		}
 
 		const lazyload = new IntersectionObserver((entries, obs) => {
+
 			entries.forEach(async entry => {
 				if (!entry.isIntersecting) return;
+
 				const row = entry.target;
 				const nameCell = row.cells[0];
 				const linkCell = row.cells[5];
+
 				const mv = row.cells[2];
 				const mp = row.cells[3];
 				const lp = row.cells[4];
+
 				if (nameCell && linkCell) {
 					const rawText = nameCell.textContent.trim();
 					const match = rawText.match(/\((.*?)\)/);
+
 					if (match) {
 						const shortWear = `(${match[1]})`;
 						const fullWear = wearMap[shortWear];
 						const baseName = rawText.replace(shortWear, "").trim();
 						const fullName = `${baseName} (${fullWear})`;
+
+						console.log("Lazy Loading:", fullName);
+
 						const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
 						linkCell.textContent = "Visit Market";
 						linkCell.classList.add("button");
 						linkCell.dataset.url = url;
+
 						const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
 						const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
+
 						try {
 							const response = await fetch(cfworkerURL);
 							const data = await response.json();
+
 							if (data.success) {
 								mv.innerText = data.volume || "N/A";
 								mp.innerText = data.median_price || "N/A";
@@ -161,6 +178,7 @@
 						} catch (err) {
 							console.error("API fetch error:", err);
 						}
+
 					} else {
 						linkCell.textContent = "Invalid Name";
 						linkCell.style.color = "red";
