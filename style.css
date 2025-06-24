@@ -1,31 +1,42 @@
-body {
-    background-color: rgb(17, 18, 20);
-    display: flex;
+/* Make sure html and body fill the viewport height */
+html, body {
+    height: 100%;
     margin: 0;
-    font-family: sans-serif;
 }
 
+/* Body as normal, background and font */
+body {
+    background-color: rgb(17, 18, 20);
+    font-family: sans-serif;
+    height: 100%;
+}
+
+/* Layout container is the flex parent */
 #layout {
     display: flex;
     width: 100%;
+    height: 100vh; /* Fill viewport height */
 }
 
-#main {
-    flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
-}
-
+/* Sidebar styles */
 #nav {
     width: 250px;
     background-color: #1e1e1e;
     color: white;
-    height: 100vh;
+    height: 100%; /* fill layout height */
     overflow-y: auto;
     padding: 1rem;
     box-sizing: border-box;
 }
 
+/* Main content styles */
+#main {
+    flex: 1; /* take remaining horizontal space */
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* rest of your styles */
 .navitemmain {
     margin-bottom: 1rem;
 }
