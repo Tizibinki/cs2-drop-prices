@@ -170,5 +170,39 @@
       { "name": "Dreams & Nightmares Case", "hasWear": false },
       { "name": "Fracture Case", "hasWear": false }
     ]
+  },
+    {
+    "weapon" : "Rare Cases",
+    "skins": [
+      { "name": "Snakebite Case", "hasWear": false },
+      { "name": "Prisma 2 Case", "hasWear": false },
+      { "name": "CS20 Case", "hasWear": false },
+      { "name": "Prisma Case", "hasWear": false },
+      { "name": "Danger Zone Case", "hasWear": false },
+      { "name": "Horizon Case", "hasWear": false },
+      { "name": "Clutch Case", "hasWear": false },
+      { "name": "Spectrum 2 Case", "hasWear": false },
+      { "name": "Operation Hydra Case", "hasWear": false },
+      { "name": "Spectrum Case", "hasWear": false },
+      { "name": "Glove Case", "hasWear": false },
+      { "name": "Gamma 2 Case", "hasWear": false },
+      { "name": "Gamme Case", "hasWear": false },
+      { "name": "Chrome 3 Case", "hasWear": false },
+      { "name": "Operation Wildfire Case", "hasWear": false },
+      { "name": "Revolver Case", "hasWear": false },
+      { "name": "Shadow Case", "hasWear": false },
+      { "name": "Falchion Case", "hasWear": false },
+      { "name": "Croma 2 Case", "hasWear": false },
+      { "name": "Chroma Case", "hasWear": false },
+      { "name": "Operation Vanguard Weapon Case", "hasWear": false },
+      { "name": "Operation Breakout Weapon Case", "hasWear": false },
+      { "name": "Huntsman Weapon Case", "hasWear": false },
+      { "name": "Operation Phoenix Weapon Case", "hasWear": false },
+      { "name": "CS:GO Weapon Case 3", "hasWear": false },
+      { "name": "Winter Offensive Weapon Case", "hasWear": false },
+      { "name": "CS:GO Weapon Case 2", "hasWear": false },
+      { "name": "Operation Bravo Case", "hasWear": false },
+      { "name": "CS:GO Weapon Case", "hasWear": false }
+    ]
   }
 ]
