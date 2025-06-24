@@ -5,6 +5,7 @@ html, body {
 
 body {
     background-color: #1e1e1e;
+    color:white;
     font-family: sans-serif;
     height: 100%;
 }
@@ -17,8 +18,6 @@ body {
 
 #nav {
     width: 250px;
-    background-color: #1e1e1e;
-    color: white;
     height: 100%;
     overflow-y: auto;
     padding: 1rem;
@@ -42,7 +41,6 @@ body {
     font-weight: bold;
     user-select: none;
     padding: 6px 10px;
-    background-color: #1e1e1e;
     border-radius: 4px;
     transition: background-color 0.2s;
 }
@@ -91,7 +89,6 @@ body {
 
 h2 {
     scroll-margin-top: 60px;
-    color: white;
 }
 
 .table {
@@ -101,7 +98,7 @@ h2 {
 }
 
 table, th, td {
-    border: 2px solid rgb(32, 32, 36);
+    border: 2px solid gray;
     border-collapse: collapse;
     color: gray;
 }
