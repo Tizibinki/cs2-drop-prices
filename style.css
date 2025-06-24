@@ -5,7 +5,7 @@ html, body {
 
 body {
     background-color: #1e1e1e;
-    color:white;
+    color: white;
     font-family: sans-serif;
     height: 100%;
 }
@@ -40,9 +40,10 @@ body {
     cursor: pointer;
     font-weight: bold;
     user-select: none;
-    padding: 6px 10px;
+    padding: 3px 6px;       /* Reduced padding */
     border-radius: 4px;
     transition: background-color 0.2s;
+    font-size: 0.85rem;     /* Smaller font size */
 }
 
 .dropdwn:hover {
@@ -51,10 +52,10 @@ body {
 
 .arrow {
     display: inline-block;
-    width: 1rem;
+    width: 0.75rem;         /* Smaller arrow width */
     color: white;
     transition: transform 0.2s ease;
-    margin-right: 5px;
+    margin-right: 4px;      /* Less margin */
 }
 
 .navitemmain.open .arrow {
@@ -116,20 +117,4 @@ td {
     font-size: 100%;
     height: 100%;
     line-height: 27px;
-    min-width: 54px;
-    padding: 0 16px;
-    text-align: center;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: pre;
-}
-
-.button:hover {
-    color: #202124;
-}
-
-.button:focus {
-    border-color: #4285f4;
-    outline: none;
-}
+    min-width: 54p
