@@ -74,7 +74,8 @@
 						const skinid = `skin-${weapon.replace(/\s+/g, "-").toLowerCase()}-${skin.name.replace(/\s+/g, "-").toLowerCase()}`;
 
 						const skinhead = document.createElement("h2");
-						skinhead.textContent = `${weapon} | ${skin.name}`;
+						const showFullName = skin.hasWear !== false && weapon !== "Cases";
+						skinhead.textContent = showFullName ? `${weapon} | ${skin.name}` : skin.name;
 						skinhead.id = skinid;
 						itempart.appendChild(skinhead);
 
@@ -95,8 +96,19 @@
 						const wears = skin.hasWear ? shortWear : [""];
 						wears.forEach(wear => {
 							const fullWear = wearMap[wear] || "";
-							const fullName = skin.hasWear ? `${weapon} | ${skin.name} (${fullWear})` : `${weapon} | ${skin.name}`;
-							const shortName = skin.hasWear ? `${weapon} | ${skin.name} ${wear}` : `${weapon} | ${skin.name}`;
+							let fullName;
+							let shortName;
+
+							if (skin.hasWear) {
+								fullName = `${weapon} | ${skin.name} (${fullWear})`;
+								shortName = `${weapon} | ${skin.name} ${wear}`;
+							} else if (weapon === "Cases") {
+								fullName = skin.name;
+								shortName = skin.name;
+							} else {
+								fullName = `${weapon} | ${skin.name}`;
+								shortName = `${weapon} | ${skin.name}`;
+							}
 
 							const tr = document.createElement("tr");
 							const tdname = document.createElement("td");
@@ -131,7 +143,7 @@
 			}
 
 			document.querySelectorAll("table tr").forEach(row => {
-				if (row.cells.length === 6 && row.cells[0].textContent.includes("|")) {
+				if (row.cells.length === 6 && row.cells[0].textContent) {
 					lazyload.observe(row);
 				}
 			});
@@ -152,37 +164,38 @@
 					const rawText = nameCell.textContent.trim();
 					const match = rawText.match(/\((.*?)\)/);
 
+					let fullName;
+
 					if (match) {
 						const shortWear = `(${match[1]})`;
 						const fullWear = wearMap[shortWear];
 						const baseName = rawText.replace(shortWear, "").trim();
-						const fullName = `${baseName} (${fullWear})`;
-
-						console.log("Lazy Loading:", fullName);
-
-						const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
-						linkCell.textContent = "Visit Market";
-						linkCell.classList.add("button");
-						linkCell.dataset.url = url;
-
-						const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
-						const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
-
-						try {
-							const response = await fetch(cfworkerURL);
-							const data = await response.json();
-
-							if (data.success) {
-								mv.innerText = data.volume || "N/A";
-								mp.innerText = data.median_price || "N/A";
-								lp.innerText = data.lowest_price || "N/A";
-							}
-						} catch (err) {
-							console.error("API fetch error:", err);
-						}
+						fullName = `${baseName} (${fullWear})`;
 					} else {
-						linkCell.textContent = "Invalid Name";
-						linkCell.style.color = "red";
+						fullName = rawText;
+					}
+
+					console.log("Lazy Loading:", fullName);
+
+					const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
+					linkCell.textContent = "Visit Market";
+					linkCell.classList.add("button");
+					linkCell.dataset.url = url;
+
+					const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
+					const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
+
+					try {
+						const response = await fetch(cfworkerURL);
+						const data = await response.json();
+
+						if (data.success) {
+							mv.innerText = data.volume || "N/A";
+							mp.innerText = data.median_price || "N/A";
+							lp.innerText = data.lowest_price || "N/A";
+						}
+					} catch (err) {
+						console.error("API fetch error:", err);
 					}
 					lazyload.unobserve(row);
 				}
