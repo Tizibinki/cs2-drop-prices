@@ -85,13 +85,20 @@
 						navitemsub.appendChild(sublink);
 
 						const table = document.createElement("table");
-						const thead = document.createElement("tr");
+
+						// Create and append <thead> with headers
+						const thead = document.createElement("thead");
+						const headRow = document.createElement("tr");
 						["skin", "drop rate", "market volume", "average price", "lowest price", "market link"].forEach(head => {
 							const th = document.createElement("th");
 							th.textContent = head;
-							thead.appendChild(th);
+							headRow.appendChild(th);
 						});
+						thead.appendChild(headRow);
 						table.appendChild(thead);
+
+						// Create <tbody> for data rows
+						const tbody = document.createElement("tbody");
 
 						const wears = skin.hasWear ? shortWear : [""];
 						wears.forEach(wear => {
@@ -127,8 +134,10 @@
 							tdurl.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
 
 							[tdname, tdrate, tdvolume, tdmedian, tdlow, tdurl].forEach(td => tr.appendChild(td));
-							table.appendChild(tr);
+							tbody.appendChild(tr);
 						});
+
+						table.appendChild(tbody);
 						itempart.appendChild(table);
 					});
 
@@ -142,7 +151,7 @@
 				document.getElementById("main").textContent = "Failed to load skin Data.";
 			}
 
-			document.querySelectorAll("table tr").forEach(row => {
+			document.querySelectorAll("table tbody tr").forEach(row => {
 				if (row.cells.length === 6 && row.cells[0].textContent) {
 					lazyload.observe(row);
 				}
