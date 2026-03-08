@@ -15,113 +15,119 @@
   </div>
 
   <script>
-    const shortWear = ["(FN)", "(MW)", "(FT)", "(WW)", "(BS)"];
-    const wearMap = {
-      "(FN)": "Factory New",
-      "(MW)": "Minimal Wear",
-      "(FT)": "Field-Tested",
-      "(WW)": "Well-Worn",
-      "(BS)": "Battle-Scarred"
-    };
+    const wearsOrder = ["Factory New","Minimal Wear","Field-Tested","Well-Worn","Battle-Scarred"];
 
     async function loadsite() {
       try {
-        // Fetch skins + prices from your Worker
+        // Fetch all skins + prices from the Worker
         const res = await fetch("https://collections.tizibinki.workers.dev/api/skins");
-        const items = await res.json();
+        const data = await res.json();
 
+        // Group by collection (weapon)
+        const itemsMap = {};
+        data.forEach(skin => {
+          const weapon = skin.collection;
+          if (!itemsMap[weapon]) itemsMap[weapon] = { weapon, skins: [] };
+          itemsMap[weapon].skins.push(skin);
+        });
+
+        const items = Object.values(itemsMap);
         const main = document.getElementById("main");
         const nav = document.getElementById("nav");
 
-        items.forEach(skin => {
-          const weapon = skin.collection;
-          const weaponId = `weapon-${weapon.replace(/\s+/g, "-").toLowerCase()}`;
+        items.forEach(({ weapon, skins }) => {
+          const itempart = document.createElement("div");
+          const itemid = `weapon-${weapon.replace(/\s+/g, "-").toLowerCase()}`;
+          const itemhead = document.createElement("h1");
+          itemhead.id = itemid;
+          itemhead.textContent = weapon;
+          itempart.appendChild(itemhead);
 
-          // Create collection header
-          let itempart = document.getElementById(weaponId);
-          if (!itempart) {
-            itempart = document.createElement("div");
-            const itemhead = document.createElement("h1");
-            itemhead.id = weaponId;
-            itemhead.textContent = weapon;
-            itempart.appendChild(itemhead);
-            main.appendChild(itempart);
+          // Navigation
+          const navitemhead = document.createElement("div");
+          navitemhead.className = "navitemmain";
+          const dropdwn = document.createElement("div");
+          dropdwn.className = "dropdwn";
+          const arrow = document.createElement("span");
+          arrow.className = "arrow";
+          arrow.textContent = ">";
+          const mainlink = document.createElement("span");
+          mainlink.textContent = weapon;
+          mainlink.className = "mainlink";
+          mainlink.style.cursor = "pointer";
+          mainlink.addEventListener("click", () => {
+            document.getElementById(itemid).scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          dropdwn.appendChild(arrow);
+          dropdwn.appendChild(mainlink);
+          const navitemsub = document.createElement("div");
+          navitemsub.className = "skinlist";
+          navitemhead.appendChild(dropdwn);
+          navitemhead.appendChild(navitemsub);
+          nav.appendChild(navitemhead);
 
-            // Navigation
-            const navitemhead = document.createElement("div");
-            navitemhead.className = "navitemmain";
+          // Add skins
+          skins.forEach(skin => {
+            const skinid = `skin-${weapon.replace(/\s+/g, "-").toLowerCase()}-${skin.name.replace(/\s+/g, "-").toLowerCase()}`;
+            const skinhead = document.createElement("h2");
+            skinhead.id = skinid;
+            skinhead.textContent = skin.name;
+            itempart.appendChild(skinhead);
 
-            const dropdwn = document.createElement("div");
-            dropdwn.className = "dropdwn";
+            const table = document.createElement("table");
+            const thead = document.createElement("thead");
+            const headRow = document.createElement("tr");
+            ["Skin Wear","Market Volume","Median Price","Lowest Price","Market Link"].forEach(txt => {
+              const th = document.createElement("th");
+              th.textContent = txt;
+              headRow.appendChild(th);
+            });
+            thead.appendChild(headRow);
+            table.appendChild(thead);
 
-            const arrow = document.createElement("span");
-            arrow.className = "arrow";
-            arrow.textContent = ">";
+            const tbody = document.createElement("tbody");
 
-            const mainlink = document.createElement("span");
-            mainlink.textContent = weapon;
-            mainlink.className = "mainlink";
-            mainlink.style.cursor = "pointer";
-            mainlink.addEventListener("click", () => {
-              document.getElementById(weaponId).scrollIntoView({ behavior: "smooth", block: "start" });
+            // Loop through all wears
+            wearsOrder.forEach(wear => {
+              const price = skin.prices?.[wear] || "N/A";
+              const tr = document.createElement("tr");
+
+              const tdName = document.createElement("td");
+              tdName.textContent = `${skin.name} (${wear})`;
+
+              const tdVolume = document.createElement("td");
+              tdVolume.textContent = "N/A"; // can be added if your Worker provides volume
+
+              const tdMedian = document.createElement("td");
+              tdMedian.textContent = price;
+
+              const tdLowest = document.createElement("td");
+              tdLowest.textContent = "N/A"; // can be added if your Worker provides lowest_price
+
+              const tdLink = document.createElement("td");
+              tdLink.textContent = "Visit Market";
+              tdLink.classList.add("button");
+              tdLink.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(skin.name + " (" + wear + ")")}`;
+
+              [tdName, tdVolume, tdMedian, tdLowest, tdLink].forEach(td => tr.appendChild(td));
+              tbody.appendChild(tr);
             });
 
-            dropdwn.appendChild(arrow);
-            dropdwn.appendChild(mainlink);
+            table.appendChild(tbody);
+            itempart.appendChild(table);
 
-            const navitemsub = document.createElement("div");
-            navitemsub.className = "skinlist";
-
-            navitemhead.appendChild(dropdwn);
-            navitemhead.appendChild(navitemsub);
-            nav.appendChild(navitemhead);
-          }
-
-          // Table for skin
-          const table = document.createElement("table");
-          const thead = document.createElement("thead");
-          const headRow = document.createElement("tr");
-          ["Skin", "Market Volume", "Median Price", "Lowest Price", "Market Link"].forEach(text => {
-            const th = document.createElement("th");
-            th.textContent = text;
-            headRow.appendChild(th);
-          });
-          thead.appendChild(headRow);
-          table.appendChild(thead);
-
-          const tbody = document.createElement("tbody");
-          const wears = Object.keys(skin.prices).length ? Object.keys(skin.prices) : [""];
-
-          wears.forEach(wear => {
-            const tr = document.createElement("tr");
-
-            const tdName = document.createElement("td");
-            tdName.textContent = wear ? `${skin.name} (${wear})` : skin.name;
-
-            const tdVolume = document.createElement("td");
-            tdVolume.textContent = "N/A";
-
-            const tdMedian = document.createElement("td");
-            tdMedian.textContent = skin.prices[wear] || "N/A";
-
-            const tdLowest = document.createElement("td");
-            tdLowest.textContent = "N/A";
-
-            const tdLink = document.createElement("td");
-            tdLink.textContent = "Visit Market";
-            tdLink.classList.add("button");
-            const fullName = wear ? `${skin.name} (${wear})` : skin.name;
-            tdLink.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
-
-            [tdName, tdVolume, tdMedian, tdLowest, tdLink].forEach(td => tr.appendChild(td));
-            tbody.appendChild(tr);
+            // Add navigation links
+            const sublink = document.createElement("a");
+            sublink.href = `#${skinid}`;
+            sublink.textContent = skin.name;
+            navitemsub.appendChild(sublink);
           });
 
-          table.appendChild(tbody);
-          itempart.appendChild(table);
+          main.appendChild(itempart);
         });
+
       } catch (err) {
-        console.error("Error fetching skins from Worker:", err);
+        console.error("Error loading skins from Worker:", err);
         document.getElementById("main").textContent = "Failed to load skin data.";
       }
     }
