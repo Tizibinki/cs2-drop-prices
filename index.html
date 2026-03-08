@@ -1,234 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<title>CS2 Drop Prices</title>
-	<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>CS2 Drop Prices</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-	<div id="layout">
-		<div id="nav"></div>
-		<div id="main">
-			<h1>Check the Profits from your weekly Drops!</h1>
-			<p>This is a little tool aimed to make it easier to check what the current steam prices for the available weekly Drops are using the steam API</p>
-		</div>
-	</div>
+  <div id="layout">
+    <div id="nav"></div>
+    <div id="main">
+      <h1>Check the Profits from your weekly Drops!</h1>
+      <p>This tool dynamically loads the current Steam prices for weekly Drops using the Cloudflare Worker API.</p>
+    </div>
+  </div>
 
-	<script>
-		const shortWear = ["(FN)", "(MW)", "(FT)", "(WW)", "(BS)"];
-		const wearMap = {
-			"(FN)": "Factory New",
-			"(MW)": "Minimal Wear",
-			"(FT)": "Field-Tested",
-			"(WW)": "Well-Worn",
-			"(BS)": "Battle-Scarred"
-		};
+  <script>
+    const shortWear = ["(FN)", "(MW)", "(FT)", "(WW)", "(BS)"];
+    const wearMap = {
+      "(FN)": "Factory New",
+      "(MW)": "Minimal Wear",
+      "(FT)": "Field-Tested",
+      "(WW)": "Well-Worn",
+      "(BS)": "Battle-Scarred"
+    };
 
-		async function loadsite() {
-			try {
-				const res = await fetch("items.json");
-				const items = await res.json();
+    async function loadsite() {
+      try {
+        // Fetch skins + prices from your Worker
+        const res = await fetch("https://collections.tizibinki.workers.dev/api/skins");
+        const items = await res.json();
 
-				const main = document.getElementById("main");
-				const nav = document.getElementById("nav");
+        const main = document.getElementById("main");
+        const nav = document.getElementById("nav");
 
-				items.forEach(({ weapon, skins }) => {
-					const itempart = document.createElement("div");
-					const itemhead = document.createElement("h1");
-					const itemid = `weapon-${weapon.replace(/\s+/g, "-").toLowerCase()}`;
-					itemhead.textContent = weapon;
-					itemhead.id = itemid;
-					itempart.appendChild(itemhead);
+        items.forEach(skin => {
+          const weapon = skin.collection;
+          const weaponId = `weapon-${weapon.replace(/\s+/g, "-").toLowerCase()}`;
 
-					const navitemhead = document.createElement("div");
-					navitemhead.className = "navitemmain";
+          // Create collection header
+          let itempart = document.getElementById(weaponId);
+          if (!itempart) {
+            itempart = document.createElement("div");
+            const itemhead = document.createElement("h1");
+            itemhead.id = weaponId;
+            itemhead.textContent = weapon;
+            itempart.appendChild(itemhead);
+            main.appendChild(itempart);
 
-					const dropdwn = document.createElement("div");
-					dropdwn.className = "dropdwn";
+            // Navigation
+            const navitemhead = document.createElement("div");
+            navitemhead.className = "navitemmain";
 
-					const arrow = document.createElement("span");
-					arrow.className = "arrow";
-					arrow.textContent = ">";
+            const dropdwn = document.createElement("div");
+            dropdwn.className = "dropdwn";
 
-					const mainlink = document.createElement("span");
-					mainlink.textContent = weapon;
-					mainlink.className = "mainlink";
-					mainlink.style.cursor = "pointer";
+            const arrow = document.createElement("span");
+            arrow.className = "arrow";
+            arrow.textContent = ">";
 
-					mainlink.addEventListener("click", () => {
-						document.getElementById(itemid).scrollIntoView({ behavior: "smooth", block: "start" });
-					});
+            const mainlink = document.createElement("span");
+            mainlink.textContent = weapon;
+            mainlink.className = "mainlink";
+            mainlink.style.cursor = "pointer";
+            mainlink.addEventListener("click", () => {
+              document.getElementById(weaponId).scrollIntoView({ behavior: "smooth", block: "start" });
+            });
 
-					dropdwn.appendChild(arrow);
-					dropdwn.appendChild(mainlink);
+            dropdwn.appendChild(arrow);
+            dropdwn.appendChild(mainlink);
 
-					dropdwn.addEventListener("click", (e) => {
-						if (e.target === mainlink) return;
-						navitemhead.classList.toggle("open");
-					});
+            const navitemsub = document.createElement("div");
+            navitemsub.className = "skinlist";
 
-					const navitemsub = document.createElement("div");
-					navitemsub.className = "skinlist";
+            navitemhead.appendChild(dropdwn);
+            navitemhead.appendChild(navitemsub);
+            nav.appendChild(navitemhead);
+          }
 
-					skins.forEach(skin => {
-						const skinid = `skin-${weapon.replace(/\s+/g, "-").toLowerCase()}-${skin.name.replace(/\s+/g, "-").toLowerCase()}`;
+          // Table for skin
+          const table = document.createElement("table");
+          const thead = document.createElement("thead");
+          const headRow = document.createElement("tr");
+          ["Skin", "Market Volume", "Median Price", "Lowest Price", "Market Link"].forEach(text => {
+            const th = document.createElement("th");
+            th.textContent = text;
+            headRow.appendChild(th);
+          });
+          thead.appendChild(headRow);
+          table.appendChild(thead);
 
-						const skinhead = document.createElement("h2");
-						const showFullName = skin.hasWear !== false && weapon !== "Cases" && weapon !== "Rare Cases";
-						skinhead.textContent = showFullName ? `${weapon} | ${skin.name}` : skin.name;
-						skinhead.id = skinid;
-						itempart.appendChild(skinhead);
+          const tbody = document.createElement("tbody");
+          const wears = Object.keys(skin.prices).length ? Object.keys(skin.prices) : [""];
 
-						const sublink = document.createElement("a");
-						sublink.href = `#${skinid}`;
-						sublink.textContent = skin.name;
-						navitemsub.appendChild(sublink);
+          wears.forEach(wear => {
+            const tr = document.createElement("tr");
 
-						const table = document.createElement("table");
+            const tdName = document.createElement("td");
+            tdName.textContent = wear ? `${skin.name} (${wear})` : skin.name;
 
-						const thead = document.createElement("thead");
-						const headRow = document.createElement("tr");
-						["skin", "drop rate", "market volume", "average price", "lowest price", "market link"].forEach(head => {
-							const th = document.createElement("th");
-							th.textContent = head;
-							headRow.appendChild(th);
-						});
-						thead.appendChild(headRow);
-						table.appendChild(thead);
+            const tdVolume = document.createElement("td");
+            tdVolume.textContent = "N/A";
 
-						const tbody = document.createElement("tbody");
+            const tdMedian = document.createElement("td");
+            tdMedian.textContent = skin.prices[wear] || "N/A";
 
-						const wears = skin.hasWear ? shortWear : [""];
+            const tdLowest = document.createElement("td");
+            tdLowest.textContent = "N/A";
 
-						wears.forEach(wear => {
-							const fullWear = wearMap[wear] || "";
-							let fullName;
-							let shortName;
+            const tdLink = document.createElement("td");
+            tdLink.textContent = "Visit Market";
+            tdLink.classList.add("button");
+            const fullName = wear ? `${skin.name} (${wear})` : skin.name;
+            tdLink.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
 
-							if (skin.hasWear) {
-								fullName = `${weapon} | ${skin.name} (${fullWear})`;
-								shortName = `${weapon} | ${skin.name} ${wear}`;
-							} else if (weapon === "Cases" || weapon === "Rare Cases") {
-								fullName = skin.name;
-								shortName = skin.name;
-							} else {
-								fullName = `${weapon} | ${skin.name}`;
-								shortName = `${weapon} | ${skin.name}`;
-							}
+            [tdName, tdVolume, tdMedian, tdLowest, tdLink].forEach(td => tr.appendChild(td));
+            tbody.appendChild(tr);
+          });
 
-							const tr = document.createElement("tr");
+          table.appendChild(tbody);
+          itempart.appendChild(table);
+        });
+      } catch (err) {
+        console.error("Error fetching skins from Worker:", err);
+        document.getElementById("main").textContent = "Failed to load skin data.";
+      }
+    }
 
-							const tdname = document.createElement("td");
-							tdname.textContent = shortName;
+    document.addEventListener("click", e => {
+      const cell = e.target.closest("td[data-url]");
+      if (cell) window.open(cell.dataset.url, "_blank");
+    });
 
-							const tdrate = document.createElement("td");
-							tdrate.textContent = "future feature";
-
-							const tdvolume = document.createElement("td");
-							tdvolume.textContent = "N/A";
-
-							const tdmedian = document.createElement("td");
-							tdmedian.textContent = "N/A";
-
-							const tdlow = document.createElement("td");
-							tdlow.textContent = "N/A";
-
-							const tdurl = document.createElement("td");
-							tdurl.textContent = "visit market";
-							tdurl.classList.add("button");
-							tdurl.dataset.url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
-
-							[tdname, tdrate, tdvolume, tdmedian, tdlow, tdurl].forEach(td => tr.appendChild(td));
-							tbody.appendChild(tr);
-						});
-
-						table.appendChild(tbody);
-						itempart.appendChild(table);
-					});
-
-					main.appendChild(itempart);
-					navitemhead.appendChild(dropdwn);
-					navitemhead.appendChild(navitemsub);
-					nav.appendChild(navitemhead);
-				});
-			} catch (err) {
-				console.error("Error loading items.json", err);
-				document.getElementById("main").textContent = "Failed to load skin Data.";
-			}
-
-			document.querySelectorAll("table tbody tr").forEach(row => {
-				if (row.cells.length === 6 && row.cells[0].textContent) {
-					lazyload.observe(row);
-				}
-			});
-		}
-
-		const lazyload = new IntersectionObserver((entries, obs) => {
-			entries.forEach(async entry => {
-				if (!entry.isIntersecting) return;
-
-				const row = entry.target;
-				const nameCell = row.cells[0];
-				const linkCell = row.cells[5];
-				const mv = row.cells[2];
-				const mp = row.cells[3];
-				const lp = row.cells[4];
-
-				if (nameCell && linkCell) {
-					const rawText = nameCell.textContent.trim();
-					const match = rawText.match(/\((.*?)\)/);
-
-					let fullName;
-
-					if (match) {
-						const shortWear = `(${match[1]})`;
-						const fullWear = wearMap[shortWear];
-						const baseName = rawText.replace(shortWear, "").trim();
-						fullName = `${baseName} (${fullWear})`;
-					} else {
-						fullName = rawText;
-					}
-
-					console.log("Lazy Loading:", fullName);
-
-					const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(fullName)}`;
-					linkCell.textContent = "Visit Market";
-					linkCell.classList.add("button");
-					linkCell.dataset.url = url;
-
-					const steamAPI = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(fullName)}`;
-					const cfworkerURL = `https://steam-api-fetch.tizibinki.workers.dev/?url=${encodeURIComponent(steamAPI)}`;
-
-					try {
-						const response = await fetch(cfworkerURL);
-						const data = await response.json();
-
-						if (data.success) {
-							mv.innerText = data.volume || "N/A";
-							mp.innerText = data.median_price || "N/A";
-							lp.innerText = data.lowest_price || "N/A";
-						}
-					} catch (err) {
-						console.error("API fetch error:", err);
-					}
-					lazyload.unobserve(row);
-				}
-			});
-		}, {
-			root: null,
-			rootMargin: "0px 0px 150px 0px",
-			threshold: 0.1
-		});
-
-		document.addEventListener("click", e => {
-			const cell = e.target.closest("td[data-url]");
-			if (cell) {
-				const url = cell.dataset.url;
-				if (url) window.open(url, "_blank");
-			}
-		});
-
-		loadsite();
-	</script>
+    loadsite();
+  </script>
 </body>
 </html>
